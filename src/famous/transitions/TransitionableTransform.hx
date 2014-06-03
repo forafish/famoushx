@@ -50,7 +50,7 @@ class TransitionableTransform {
      * @param [callback] {Function} Callback
      * @return {TransitionableTransform}
      */
-    public function setTranslate(translate:Dynamic, transition:Dynamic, callback:Void -> Void) {
+    public function setTranslate(translate:Dynamic, ?transition:Dynamic, ?callback:Void -> Void) {
         this.translate.set(translate, transition, callback);
         this._final = this._final.slice(0);
         this._final[12] = translate[0];
@@ -72,7 +72,7 @@ class TransitionableTransform {
      * @param [callback] {Function} Callback
      * @return {TransitionableTransform}
      */
-    public function setScale(scale:Dynamic, transition:Dynamic, callback:Void -> Void) {
+    public function setScale(scale:Dynamic, ?transition:Dynamic, ?callback:Void -> Void) {
         this.scale.set(scale, transition, callback);
         this._final = this._final.slice(0);
         this._final[0] = scale[0];
@@ -94,7 +94,7 @@ class TransitionableTransform {
      * @param [callback] {Function} Callback
      * @return {TransitionableTransform}
      */
-    public function setRotate(eulerAngles:Dynamic, transition:Dynamic, callback:Void -> Void) {
+    public function setRotate(eulerAngles:Dynamic, ?transition:Dynamic, ?callback:Void -> Void) {
         this.rotate.set(eulerAngles, transition, callback);
         this._final = _build();
         this._final = Transform.build({
@@ -117,7 +117,7 @@ class TransitionableTransform {
      * @param [callback] {Function} Callback
      * @return {TransitionableTransform}
      */
-	public function setSkew(skewAngles:Dynamic, transition:Dynamic, callback:Void -> Void) {
+	public function setSkew(skewAngles:Dynamic, ?transition:Dynamic, ?callback:Void -> Void) {
         this.skew.set(skewAngles, transition, callback);
         this._final = Transform.build({
             translate: this.translate.get(),

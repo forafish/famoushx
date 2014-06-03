@@ -63,7 +63,7 @@ class RenderController extends View {
      */
 	public function new(options:RenderControllerOptions) {
 		super(options);
-		this.setOptions(RenderController.DEFAULT_OPTIONS);
+		this.setOptions(Reflect.copy(RenderController.DEFAULT_OPTIONS));
 		
         this._showing = -1;
         this._outgoingRenderables = [];

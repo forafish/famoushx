@@ -2,15 +2,15 @@ package famous.core;
 
 import famous.core.Context.NodeContext;
 import famous.core.EventEmitter.HandlerFunc;
-import famous.core.Surface.SurfaceOption;
+import famous.core.Surface.SurfaceOptions;
 import famous.core.Transform.Matrix4;
 
 using famous.math.Utilities;
 
-typedef SurfaceOption = {
+typedef SurfaceOptions = {
 	?size:Array<Float>,
 	?classes:Array<String>,
-	?properties:Options, 
+	?properties:DynamicMap, 
 	?content:String 
 	};
 
@@ -27,9 +27,9 @@ class Surface {
     public var elementType = 'div';
     public var elementClass:Dynamic = 'famous-surface';
 
-	var options:SurfaceOption;
+	var options:SurfaceOptions;
 
-	var properties:Options;
+	var properties:DynamicMap;
 	var content:Dynamic; // String or js.html.DocumentFragment
 	var classList:Array<String>;
 	var size:Array<Float>;
@@ -63,7 +63,7 @@ class Surface {
      * @param {Array} [options.properties] string dictionary of HTML attributes to set on target div
      * @param {string} [options.content] inner (HTML) content of surface
      */
-	public function new(?options:SurfaceOption) {
+	public function new(?options:SurfaceOptions) {
         this.options = {};
 
         this.properties = {};
@@ -156,7 +156,7 @@ class Surface {
      * @param {EventHandler} target event handler target object
      * @return {EventHandler} passed event handler
      */
-    public function pipe(target:EventHandler):EventHandler {
+    public function pipe(target:Dynamic):EventHandler {
         return this.eventHandler.pipe(target);
     }
 
@@ -169,7 +169,7 @@ class Surface {
      * @param {EventHandler} target target handler object
      * @return {EventHandler} provided target
      */
-    public function unpipe(target:EventHandler):EventHandler {
+    public function unpipe(target:Dynamic):EventHandler {
         return this.eventHandler.unpipe(target);
     }
 
@@ -206,7 +206,7 @@ class Surface {
      *
      * @return {Object} Dictionary of this Surface's properties.
      */
-    public function getProperties():Options {
+    public function getProperties():DynamicMap {
         return this.properties;
     };
 
@@ -301,7 +301,7 @@ class Surface {
      * @method setOptions
      * @param {Object} [options] overrides for default options.  See constructor.
      */
-    public function setOptions(options:SurfaceOption) {
+    public function setOptions(options:SurfaceOptions) {
         if (options.size != null) {
 			this.setSize(options.size);
 		}
@@ -612,7 +612,7 @@ class Surface {
      * @method deploy
      * @param {Node} target document parent of this container
      */
-    public function deploy(target:js.html.Element) {
+    public function deploy(target:Dynamic) {
         var content = this.getContent();
         if (Std.is(content, js.html.Node)) {
             while (target.hasChildNodes()) {

@@ -119,7 +119,7 @@ class Context {
      *
      * @param {Array.Number} size [width, height].  If unspecified, use size of root document element.
      */
-    public function setSize(size:Array<Float>) {
+    public function setSize(?size:Array<Float>) {
         if (size == null) {
 			size = _getElementSize(this.container);
 		}

@@ -7,9 +7,16 @@
 	<link rel="stylesheet" type="text/css" href="famous.css" />
 	<link rel="stylesheet" type="text/css" href="app.css" />
 	<link rel="stylesheet" type="text/css" href="famous_styles.css" />
+	<script>
+		window.setInterval(function() {
+		  var elem = document.getElementById('haxe:trace');
+		  elem.scrollTop = elem.scrollHeight;
+		}, 1000);
+	</script>
 </head>
 <body>
-	
-	<script src="events.js"></script>
+	<div style="overflow-x:hidden; overflow-y:visible; height:100%" id="haxe:trace"></div>
+	<script type="text/javascript" src="phantom-limb.js"></script>
+	<script type="text/javascript" src="events.js"></script>
 </body>
 </html>

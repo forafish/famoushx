@@ -2,13 +2,6 @@ package famous.core;
 
 typedef HandlerFunc = Dynamic -> Void;
 
-typedef EventEmitterType = {
-	emit:String -> ?Dynamic -> EventEmitter,
-	on:String -> HandlerFunc -> EventEmitter,
-	addListener:String -> HandlerFunc -> EventEmitter,
-	removeListener:String -> HandlerFunc -> EventEmitter
-}
-
 /**
  * EventEmitter represents a channel for events.
  */

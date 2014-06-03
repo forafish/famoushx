@@ -24,7 +24,7 @@ import famous.core.EventEmitter.HandlerFunc;
  */
 class OptionsManager {
 	
-	var _value:Options;
+	var _value:DynamicMap;
 	var eventOutput:Dynamic;
 	
     /**
@@ -32,7 +32,7 @@ class OptionsManager {
      * @constructor
      * @param {Object} value options dictionary
      */
-	public function new(value:Options) {
+	public function new(value:DynamicMap) {
         this._value = value;
         this.eventOutput = null;
 	}
@@ -71,7 +71,7 @@ class OptionsManager {
      * @param {...Object} arguments list of patch objects
      * @return {OptionsManager} this
      */
-    public function patch(datas:Array<Options>) {
+    public function patch(datas:Array<DynamicMap>) {
         var myState = this._value;
         for (data in datas) {
             for (k in data.keys()) {
@@ -97,7 +97,7 @@ class OptionsManager {
      * @method setOptions
      *
      */
-	inline public function setOptions(datas:Options) {
+	inline public function setOptions(datas:DynamicMap) {
 		patch([datas]);
 	}
 

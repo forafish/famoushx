@@ -4,7 +4,7 @@ import famous.core.Transform;
 import famous.transitions.Transitionable;
 import famous.transitions.TransitionableTransform;
 
-typedef ModifyProperties = {
+typedef ModifyOptions = {
 	?transform: Dynamic, // Matrix4 or Function or TransitionableTransform
 	?opacity: Dynamic, // Float or Function or Transitionable
 	?origin: Dynamic, // Array<Float> or Function
@@ -31,7 +31,7 @@ class Modifier {
 	/* TODO: remove this when deprecation complete */
 	var _legacyStates:Dynamic;
 
-	var _output:ModifyProperties;
+	var _output:ModifyOptions;
  
     /**
     * @constructor
@@ -41,7 +41,7 @@ class Modifier {
      * @param {Array.Number} [options.origin] origin adjustment
      * @param {Array.Number} [options.size] size to apply to descendants
      */
-	public function new(options:ModifyProperties) {
+	public function new(?options:ModifyOptions) {
         this._transformGetter = null;
         this._opacityGetter = null;
         this._originGetter = null;
@@ -204,7 +204,7 @@ class Modifier {
      * @param {Function} callback callback to call after transition completes
      * @return {Modifier} this
      */
-    public function setTransform(transform:Dynamic, transition:Transitionable, callback:Void->Void):Modifier {
+    public function setTransform(transform:Dynamic, ?transition:Dynamic, ?callback:Void->Void):Modifier {
         if (transition != null || this._legacyStates.transform != null) {
             if (this._legacyStates.transform == null) {
                 this._legacyStates.transform = new TransitionableTransform(this._output.transform);
@@ -229,7 +229,7 @@ class Modifier {
      * @param {Function} callback callback to call after transition completes
      * @return {Modifier} this
      */
-    public function setOpacity(opacity:Dynamic, transition:Transitionable, callback:Void->Void):Modifier {
+    public function setOpacity(opacity:Dynamic, ?transition:Transitionable, ?callback:Void->Void):Modifier {
         if (transition != null || this._legacyStates.opacity != null) {
             if (this._legacyStates.opacity == null) {
                 this._legacyStates.opacity = new Transitionable(this._output.opacity);
@@ -253,7 +253,7 @@ class Modifier {
      * @param {Function} callback callback to call after transition completes
      * @return {Modifier} this
      */
-    public function setOrigin(origin:Dynamic, transition:Transitionable, callback:Void->Void):Modifier {
+    public function setOrigin(origin:Dynamic, ?transition:Transitionable, ?callback:Void->Void):Modifier {
         /* TODO: remove this if statement when deprecation complete */
         if (transition != null || this._legacyStates.origin != null) {
 
@@ -280,7 +280,7 @@ class Modifier {
      * @param {Function} callback callback to call after transition completes
      * @return {Modifier} this
      */
-    public function setAlign(align:Dynamic, transition:Transitionable, callback:Void -> Void) {
+    public function setAlign(align:Dynamic, ?transition:Transitionable, ?callback:Void -> Void) {
         /* TODO: remove this if statement when deprecation complete */
         if (transition != null || this._legacyStates.align != null) {
             if (this._legacyStates.align == null) {
@@ -305,7 +305,7 @@ class Modifier {
      * @param {Function} callback callback to call after transition completes
      * @return {Modifier} this
      */
-    public function setSize(size:Dynamic, transition:Transitionable, callback:Void->Void):Modifier {
+    public function setSize(size:Dynamic, ?transition:Transitionable, ?callback:Void->Void):Modifier {
         if (size != null && (transition != null || this._legacyStates.size != null)) {
             if (this._legacyStates.size == null) {
                 this._legacyStates.size = new Transitionable(this._output.size != null? this._output.size : [0, 0]);
@@ -436,7 +436,7 @@ class Modifier {
      * @return {Object} render spec for this Modifier, including the
      *    provided target
      */
-    public function modify(target:Dynamic):ModifyProperties {
+    public function modify(target:Dynamic):ModifyOptions {
         _update();
         this._output.target = target;
         return this._output;

@@ -67,7 +67,7 @@ class Flipper {
         var angle = this.flipped ? 0 : Math.PI;
         this.setAngle(angle, transition, callback);
         this.flipped = !this.flipped;
-    };
+    }
 
     /**
      * Basic setter to the angle

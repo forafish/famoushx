@@ -2,7 +2,7 @@ package famous.views;
 
 import famous.core.Context;
 import famous.core.Entity;
-import famous.core.Options;
+import famous.core.DynamicMap;
 import famous.core.OptionsManager;
 import famous.core.RenderNode;
 import famous.core.Transform;

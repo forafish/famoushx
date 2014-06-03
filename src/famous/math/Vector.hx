@@ -1,4 +1,5 @@
 package famous.math;
+import haxe.Log;
 
 /**
  * Three-element floating point vector.
@@ -18,10 +19,14 @@ class Vector {
      * @param {number} y y element value
      * @param {number} z z element value
      */
-	public function new(?x:Float, ?y:Float, ?z:Float) {
-		this.x = x != null? x : 0;
-		this.y = y != null? y : 0;
-		this.z = z != null? z : 0;
+	public function new(?x:Dynamic, ?y:Float, ?z:Float) {
+		if (y == null && z == null) {
+			this.set(x);
+		} else {
+			this.x = x != null? x : 0;
+			this.y = y != null? y : 0;
+			this.z = z != null? z : 0;
+		}
 	}
 	
     /**
@@ -33,11 +38,11 @@ class Vector {
      * @return {Vector} vector sum
      */
     public function add(v:Vector):Vector {
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             this.x + v.x,
             this.y + v.y,
             this.z + v.z
-        ]);
+        );
     }
 
     /**
@@ -49,11 +54,11 @@ class Vector {
      * @return {Vector} vector difference
      */
 	public function sub(v:Vector):Vector {
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             this.x - v.x,
             this.y - v.y,
             this.z - v.z
-        ]);
+        );
     }
 
     /**
@@ -66,11 +71,11 @@ class Vector {
      * @return {Vector} vector result
      */
     public function mult(r:Float):Vector {
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             r * this.x,
             r * this.y,
             r * this.z
-        ]);
+        );
     }
 
     /**
@@ -102,11 +107,11 @@ class Vector {
         var vy = v.y;
         var vz = v.z;
 
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             z * vy - y * vz,
             x * vz - z * vx,
             y * vx - x * vy
-        ]);
+        );
     }
 
     /**
@@ -134,11 +139,11 @@ class Vector {
         var cosTheta = Math.cos(theta);
         var sinTheta = Math.sin(theta);
 
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             x,
             y * cosTheta - z * sinTheta,
             y * sinTheta + z * cosTheta
-        ]);
+        );
     }
 
     /**
@@ -156,11 +161,11 @@ class Vector {
         var cosTheta = Math.cos(theta);
         var sinTheta = Math.sin(theta);
 
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             z * sinTheta + x * cosTheta,
             y,
             z * cosTheta - x * sinTheta
-        ]);
+        );
     }
 
     /**
@@ -178,11 +183,11 @@ class Vector {
         var cosTheta = Math.cos(theta);
         var sinTheta = Math.sin(theta);
 
-        return Reflect.callMethod(_register, _setXYZ, [
+        return _register._setXYZ(
             x * cosTheta - y * sinTheta,
             x * sinTheta + y * cosTheta,
             z
-        ]);
+        );
     }
 
     /**
@@ -227,9 +232,9 @@ class Vector {
         var norm = this.norm();
 
         if (norm > 1e-7) {
-			return Reflect.callMethod(_register, _setFromVector, [this.mult(length / norm)]);
+			return _register._setFromVector(this.mult(length / norm));
 		} else {
-			return Reflect.callMethod(_register, _setXYZ, [length, 0, 0]);
+			return _register._setXYZ(length, 0, 0);
 		}
     }
 
@@ -256,7 +261,7 @@ class Vector {
     }
 
 	private function _setXYZ(x:Float, y:Float, z:Float):Vector {
-        this.x = x;
+       this.x = x;
         this.y = y;
         this.z = z;
         return this;
@@ -291,7 +296,7 @@ class Vector {
         if (Std.is(v, Float)) {
 			return _setFromNumber(v);
 		}
-		return null;
+		return this;
     }
 
     public function setXYZ(x:Float, y:Float, z:Float) {
@@ -309,8 +314,8 @@ class Vector {
      * @param {Vector} v destination vector
      * @return {Vector} destination vector
      */
-    public function put(v) {
-        Reflect.callMethod(v, _setFromVector, [_register]);
+    public function put(v:Vector) {
+        v._setFromVector(_register);
     }
 
     /**
@@ -332,13 +337,13 @@ class Vector {
      */
     public function cap(cap) {
         if (cap == Math.POSITIVE_INFINITY) {
-			return Reflect.callMethod(_register, _setFromVector, [this]);
+			return _register._setFromVector(this);
 		}
         var norm = this.norm();
         if (norm > cap) {
-			return Reflect.callMethod(_register, _setFromVector, [this.mult(cap / norm)]);
+			return _register._setFromVector(this.mult(cap / norm));
 		} else {
-			return Reflect.callMethod(_register, _setFromVector, [this]);
+			return _register._setFromVector(this);
 		}
     }
 
@@ -364,7 +369,7 @@ class Vector {
      */
     public function reflectAcross(n:Vector):Vector {
         n.normalize().put(n);
-        return Reflect.callMethod(_register, _setFromVector, [this.sub(this.project(n).mult(2))]);
+        return _register._setFromVector(this.sub(this.project(n).mult(2)));
     }
 
     /**
@@ -373,7 +378,7 @@ class Vector {
      * @method get
      * @return {array<number>} three-element array
      */
-    public function get() {
+    public function get():Array<Float> {
         return [this.x, this.y, this.z];
     }
 

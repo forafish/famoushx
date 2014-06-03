@@ -1,5 +1,10 @@
 package famous.transitions;
 
+typedef TransitionCurve = {
+	duration: Float, 
+	curve: Dynamic // Cuve function or name
+}
+
 /**
  * A state maintainer for a smooth transition between
  *    numerically-specified states. Example numeric states include floats or
@@ -18,12 +23,14 @@ package famous.transitions;
  */
 class Transitionable {
 		
-    public static var transitionMethods:Map<String, Dynamic> = new Map();
-
+    public static var transitionMethods:Map<String, Class<Dynamic>> = new Map();
+	public static var transitionId:Int = 0;
+	
 	var currentAction:Dynamic;
 	var actionQueue:Array<Dynamic>;
 	var callbackQueue:Array<Void -> Void>;
 
+	var id:Int;
 	var state:Dynamic;
 	var velocity:Float;
 	var _callback:Void -> Void;
@@ -40,6 +47,7 @@ class Transitionable {
         this.actionQueue = [];
         this.callbackQueue = [];
 
+		this.id = transitionId++;
         this.state = 0;
         this.velocity = null;
         this._callback = null;
@@ -49,7 +57,7 @@ class Transitionable {
         this.set(start);
 	}
 	
-    static public function registerMethod(name:String, engineClass:Dynamic) {
+    static public function registerMethod(name:String, engineClass:Class<Dynamic>) {
         if (!transitionMethods.exists(name)) {
             transitionMethods[name] = engineClass;
             return true;
@@ -93,8 +101,10 @@ class Transitionable {
 
         if (this._currentMethod != method) {
             if (!Reflect.isObject(endValue) || method.SUPPORTS_MULTIPLE == true || endValue.length <= Std.int(method.SUPPORTS_MULTIPLE)) {
+				var a = 1;
                 this._engineInstance = Type.createInstance(method, []);
             } else {
+				var b = 1;
                 this._engineInstance = new MultipleTransition(method);
             }
             this._currentMethod = method;
@@ -117,7 +127,7 @@ class Transitionable {
      * @param {number|FamousMatrix|Array.Number|Object.<number, number>} endState
      *    end state to which we interpolate
      * @param {transition=} transition object of type {duration: number, curve:
-     *    f[0,1] -> [0,1] or name}. If transition is omitted, change will be
+     *    f[0,1] -> [0,1] or name}. If transition is omitted or false, change will be
      *    instantaneous.
      * @param {function()=} callback Zero-argument function to call on observed
      *    completion (t=1)

@@ -4,6 +4,18 @@ import famous.core.EventEmitter;
 
 typedef TriggerFunc = String -> Dynamic -> EventEmitter;
 
+
+class EventHandleable {
+	public var on:String -> HandlerFunc -> EventEmitter;
+	public var pipe:Dynamic -> Dynamic;
+	public var unpipe:Dynamic -> Dynamic;
+	public var addListener:String -> HandlerFunc -> EventEmitter;
+	public var removeListener:String -> HandlerFunc -> EventEmitter;
+	
+	public var subscribe:Dynamic -> EventEmitter;
+	public var unsubscribe:Dynamic -> EventEmitter;
+}
+
 /**
  * EventHandler forwards received events to a set of provided callback functions.
  * It allows events to be captured, processed, and optionally piped through to other event handlers.
@@ -15,7 +27,7 @@ class EventHandler extends EventEmitter {
 	var downstream:Array<{trigger:TriggerFunc}>; // downstream event handlers
 	var downstreamFn:Array<TriggerFunc>; // downstream functions
 
-	var upstream:Array<EventEmitterType>; // upstream event handlers
+	var upstream:Array<Dynamic>; // upstream event handlers
 	var upstreamListeners:Map<String, HandlerFunc>; // upstream listeners
 	
     /**
@@ -41,11 +53,11 @@ class EventHandler extends EventEmitter {
      * @param {Object} object object to mix trigger, subscribe, and unsubscribe functions into
      * @param {EventHandler} handler assigned event handler
      */
-    static public function setInputHandler(object:Dynamic, handler:EventHandler) {
+    static public function setInputHandler(object:Dynamic, handler:Dynamic) {
         object.trigger = handler.trigger;
         if (handler.subscribe != null && handler.unsubscribe != null) {
-            object.subscribe = handler.subscribe;
-            object.unsubscribe = handler.unsubscribe;
+            object.subscribe = handler.subscribe.bind(handler);
+            object.unsubscribe = handler.unsubscribe.bind(handler);
         }
     }
 
@@ -58,14 +70,14 @@ class EventHandler extends EventEmitter {
      * @param {Object} object object to mix pipe, unpipe, on, addListener, and removeListener functions into
      * @param {EventHandler} handler assigned event handler
      */
-    static public function setOutputHandler(object:Dynamic, handler:EventHandler) {
+    static public function setOutputHandler(object:Dynamic, handler:Dynamic) {
 		handler.bindThis(object);
-        object.pipe = handler.pipe;
-        object.unpipe = handler.unpipe;
-        object.on = handler.on;
-        object.addListener = object.on;//?? handler.on;
-        object.removeListener = handler.removeListener;
-    };
+        object.pipe = handler.pipe.bind(handler);
+        object.unpipe = handler.unpipe.bind(handler);
+        object.on = handler.on.bind(handler);
+        object.addListener = object.on.bind(handler);//?? handler.on;
+        object.removeListener = handler.removeListener.bind(handler);
+    }
 
     /**
      * Trigger an event, sending to all downstream handlers
@@ -187,7 +199,7 @@ class EventHandler extends EventEmitter {
      * @param {EventEmitter} source source emitter object
      * @return {EventHandler} this
      */
-    dynamic public function subscribe(source:EventEmitterType):EventHandler {
+    dynamic public function subscribe(source:Dynamic):EventHandler {
         var index = this.upstream.indexOf(source);
         if (index < 0) {
             this.upstream.push(source);
@@ -206,7 +218,7 @@ class EventHandler extends EventEmitter {
      * @param {EventEmitter} source source emitter object
      * @return {EventHandler} this
      */
-	dynamic public function unsubscribe(source:EventEmitterType):EventHandler {
+	dynamic public function unsubscribe(source:Dynamic):EventHandler {
         var index = this.upstream.indexOf(source);
         if (index >= 0) {
             this.upstream.splice(index, 1);

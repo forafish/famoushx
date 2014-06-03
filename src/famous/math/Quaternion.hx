@@ -368,7 +368,7 @@ class Quaternion {
      * @method getMatrix
      * @return {Transform}
      */
-    public function getMatrix():Quaternion {
+    public function getMatrix():Matrix {
         var temp = this.normalize(1);
         var x = temp.x;
         var y = temp.y;

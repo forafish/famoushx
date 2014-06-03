@@ -3,7 +3,7 @@ package famous.views;
 import famous.core.Context.NodeContext;
 import famous.core.Engine;
 import famous.core.Entity;
-import famous.core.Options;
+import famous.core.DynamicMap;
 import famous.core.RenderNode;
 import famous.core.Transform;
 import famous.core.ViewSequence;
@@ -171,7 +171,7 @@ class GridLayout {
      * @method setOptions
      * @param {Options} options An object of configurable options for the GridLayout instance.
      */
-    public function setOptions(options:Options) {
+    public function setOptions(options:DynamicMap) {
         return this.optionsManager.setOptions(options);
     }
 

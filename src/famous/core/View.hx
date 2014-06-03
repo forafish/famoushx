@@ -1,7 +1,5 @@
 package famous.core;
 
-import famous.core.Surface.SurfaceOption;
-
 /**
  * Useful for quickly creating elements within applications
  *   with large event systems.  Consists of a RenderNode paired with

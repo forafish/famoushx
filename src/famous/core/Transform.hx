@@ -32,7 +32,12 @@ class Transform {
     // WARNING: these matrices correspond to WebKit matrices, which are
     //    transposed from their math counterparts
     static public var precision:Float = 1e-6;
-    static public var identity:Matrix4 = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+    static public var identity:Matrix4 = [
+		1, 0, 0, 0, 
+		0, 1, 0, 0,
+		0, 0, 1, 0, 
+		0, 0, 0, 1
+		];
 
     /**
      * (Property) Array defining a translation forward in z by 1
@@ -41,7 +46,12 @@ class Transform {
      * @static
      * @final
      */
-    static public var inFront:Matrix4 = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1e-3, 1];
+    static public var inFront:Matrix4 = [
+		1, 0, 0, 0, 
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 1e-3, 1
+		];
 
     /**
      * (Property) Array defining a translation backwards in z by 1
@@ -50,7 +60,12 @@ class Transform {
      * @static
      * @final
      */
-    static public var behind:Matrix4 = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -1e-3, 1];
+    static public var behind:Matrix4 = [
+		1, 0, 0, 0, 
+		0, 1, 0, 0,
+		0, 0, 1, 0, 
+		0, 0, -1e-3, 1
+		];
 
     /**
      * Multiply two or more Transform matrix types to return a Transform matrix.
@@ -127,7 +142,12 @@ class Transform {
      */
     static public function thenMove(m:Matrix4, t:Vector3):Matrix4 {
         if (t[2] == null) t[2] = 0;
-        return [m[0], m[1], m[2], 0, m[4], m[5], m[6], 0, m[8], m[9], m[10], 0, m[12] + t[0], m[13] + t[1], m[14] + t[2], 1];
+        return [
+			m[0], m[1], m[2], 0, 
+			m[4], m[5], m[6], 0, 
+			m[8], m[9], m[10], 0,
+			m[12] + t[0], m[13] + t[1], m[14] + t[2], 1
+		];
     };
 
     /**
@@ -164,7 +184,12 @@ class Transform {
      */
     static public function translate(x:Float, y:Float, ?z:Float):Matrix4 {
         if (z == null) z = 0;
-        return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1];
+        return [
+			1, 0, 0, 0, 
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			x, y, z, 1
+		];
     }
 
     /**
@@ -202,7 +227,12 @@ class Transform {
      */
     static public function scale(x:Float, y:Float, ?z:Float):Matrix4 {
         if (z == null) z = 1;
-        return [x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1];
+        return [
+			x, 0, 0, 0,
+			0, y, 0, 0, 
+			0, 0, z, 0,
+			0, 0, 0, 1
+		];
     }
 
     /**
@@ -360,7 +390,12 @@ class Transform {
      * @return {Transform} the resulting matrix
      */
     static public function perspective(focusZ:Float) {
-        return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -1 / focusZ, 0, 0, 0, 1];
+        return [
+			1, 0, 0, 0, 
+			0, 1, 0, 0,
+			0, 0, 1, -1 / focusZ,
+			0, 0, 0, 1
+		];
     };
 
     /**

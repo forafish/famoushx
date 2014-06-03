@@ -1,6 +1,10 @@
 package famous.core;
 
 import famous.core.EventEmitter.HandlerFunc;
+import famous.inputs.GenericSync;
+import famous.inputs.MouseSync;
+import famous.inputs.TouchSync;
+import famous.inputs.ScrollSync;
 
 /**
  * The singleton object initiated upon process
@@ -117,10 +121,19 @@ class Engine {
 		handleResize();
 
 		// prevent scrolling via browser
-		js.Browser.window.addEventListener('touchmove', function(event:js.html.Event) {
-			event.preventDefault();
-		}, true);
+		//js.Browser.window.addEventListener('touchmove', function(event:js.html.Event) {
+		//	event.preventDefault();
+		//}, true);
 		
+		return null;
+	})();
+	
+	static var _staticInitGenericSync = (function() {
+		GenericSync.register({
+			mouse : MouseSync,
+			touch : TouchSync,
+			scroll : ScrollSync
+		});
 		return null;
 	})();
 	
@@ -270,7 +283,7 @@ class Engine {
      * @param {string} [options.containerType="div"] type of container element.  Defaults to 'div'.
      * @param {string} [options.containerClass="famous-container"] type of container element.  Defaults to 'famous-container'.
      */
-	static public function setOptions(options:Array<Options>) {
+	static public function setOptions(options:Array<DynamicMap>) {
         return optionsManager.setOptions(options);
     }
 

@@ -1,7 +1,7 @@
 package famous.core;
 
 import famous.core.Context.NodeContext;
-import famous.core.Surface.SurfaceOption;
+import famous.core.Surface.SurfaceOptions;
 
 /**
  * A Context designed to contain surfaces and set properties
@@ -22,7 +22,7 @@ class Group extends Surface {
      * @constructor
      * @param {Object} [options] Surface options array (see Surface})
      */
-	public function new(options:SurfaceOption) {
+	public function new(?options:SurfaceOptions) {
         super(options);
 		
 		this.elementType = 'div';

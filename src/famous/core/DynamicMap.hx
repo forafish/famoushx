@@ -1,6 +1,6 @@
 package famous.core;
 
-abstract Options(Dynamic) from Dynamic {
+abstract DynamicMap(Dynamic) from Dynamic {
 
 	public inline function new() {
 		this = {};
