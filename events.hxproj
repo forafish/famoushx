@@ -22,7 +22,7 @@
     <option directives="" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
-    <option mainClass="famous.examples.surfaces.ImageSurfaceTest" />
+    <option mainClass="famous.examples.transitions.WallTransitionTest" />
     <option enabledebug="False" />
     <option additional="" />
   </build>
@@ -35,7 +35,7 @@
     <compile path="src\famous\examples\events\PipeMapper.hx" />
     <compile path="src\famous\examples\events\EventMapperExample.hx" />
     <compile path="src\famous\transitions\EdgeSwapper.hx" />
-    <compile path="src\famous\examples\surfaces\ImageSurfaceTest.hx" />
+    <compile path="src\famous\examples\transitions\WallTransitionTest.hx" />
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
